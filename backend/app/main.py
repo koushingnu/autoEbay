@@ -6,6 +6,9 @@ from sqlalchemy import text
 
 from app.config import settings
 from app.database import engine
+from app.routers import auth as auth_router
+from app.routers import ebay as ebay_router
+from app.routers import products as products_router
 
 logging.basicConfig(
     level=logging.INFO,
@@ -22,6 +25,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+app.include_router(auth_router.router)
+app.include_router(products_router.router)
+app.include_router(ebay_router.router)
 
 
 @app.get("/")

@@ -1,64 +1,73 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import Link from "next/link";
+import AppHeader from "@/components/AppHeader";
+import { useRequireAuth } from "@/lib/useAuth";
+
+export default function DashboardPage() {
+  const { user, checking } = useRequireAuth();
+
+  if (checking) {
+    return (
+      <div className="flex flex-1 items-center justify-center text-zinc-500">
+        読み込み中...
+      </div>
+    );
+  }
+
+  if (!user) return null;
+
+  const phases = [
+    { done: true, label: "Phase1: 環境構築" },
+    { done: true, label: "Phase2: ログイン・管理画面" },
+    { done: true, label: "Phase3: Amazon商品検索・一覧" },
+    { done: true, label: "Phase4: 利益計算" },
+    { done: true, label: "Phase5: 商品詳細" },
+    { done: true, label: "Phase6: 英語タイトル/説明生成" },
+    { done: true, label: "Phase7: eBay API接続" },
+    { done: true, label: "Phase8: 出品プレビュー" },
+    { done: true, label: "Phase9: eBay出品" },
+    { done: true, label: "Phase10: 商品管理" },
+  ];
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <div className="flex flex-1 flex-col bg-zinc-50 dark:bg-zinc-950">
+      <AppHeader username={user.username} />
+
+      <main className="mx-auto w-full max-w-3xl px-6 py-10">
+        <h2 className="mb-2 text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+          ようこそ、{user.username} さん
+        </h2>
+        <p className="mb-6 text-sm text-zinc-500 dark:text-zinc-400">
+          開発フェーズの進捗です。1機能ずつ実装していきます。
+        </p>
+
+        <Link
+          href="/search"
+          className="mb-8 inline-flex rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+        >
+          商品検索へ →
+        </Link>
+
+        <ul className="divide-y divide-zinc-200 overflow-hidden rounded-xl border border-zinc-200 bg-white dark:divide-zinc-800 dark:border-zinc-800 dark:bg-zinc-900">
+          {phases.map((p) => (
+            <li
+              key={p.label}
+              className="flex items-center gap-3 px-4 py-3 text-sm text-zinc-700 dark:text-zinc-200"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+              <span
+                className={`inline-flex h-5 w-5 items-center justify-center rounded-full text-xs ${
+                  p.done
+                    ? "bg-green-500 text-white"
+                    : "bg-zinc-200 text-zinc-400 dark:bg-zinc-700"
+                }`}
+              >
+                {p.done ? "✓" : ""}
+              </span>
+              {p.label}
+            </li>
+          ))}
+        </ul>
       </main>
     </div>
   );
