@@ -19,6 +19,7 @@ export type ListingPreview = {
   price_usd: number;
   shipping_usd: number;
   category: string;
+  brand: string;
   condition: string;
   currency: string;
 };

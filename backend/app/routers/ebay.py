@@ -51,6 +51,7 @@ def preview(
         ebay_price_usd=info.ebay_price_usd,
         shipping_jpy=info.shipping,
         category=product.category or "",
+        brand=product.brand or "",
     )
     return PreviewResponse(mock=ebay.is_mock(), preview=ListingPreview(**payload))
 
@@ -76,6 +77,7 @@ def create_listing(
         ebay_price_usd=info.ebay_price_usd,
         shipping_jpy=info.shipping,
         category=product.category or "",
+        brand=product.brand or "",
     )
 
     try:

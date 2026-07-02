@@ -41,6 +41,15 @@ class Settings(BaseSettings):
     ebay_oauth_token: str = ""  # ユーザートークン(Sell API用)
     ebay_env: str = "sandbox"   # sandbox / production
 
+    # eBay 出品設定（Sell API）
+    ebay_marketplace_id: str = "EBAY_US"     # 出品先マーケットプレイス
+    ebay_currency: str = "USD"               # 出品通貨
+    ebay_merchant_location_key: str = "WAREHOUSE1"  # 在庫ロケーションキー（自動作成）
+    ebay_category_id: str = "171485"         # 既定カテゴリ（未指定時のフォールバック）
+    ebay_fulfillment_policy_id: str = ""     # 空なら自動取得
+    ebay_payment_policy_id: str = ""         # 空なら自動取得
+    ebay_return_policy_id: str = ""          # 空なら自動取得
+
     # AI 翻訳（英語タイトル/説明生成）
     openai_api_key: str = ""
     openai_model: str = "gpt-4o-mini"

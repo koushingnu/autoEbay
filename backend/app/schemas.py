@@ -91,6 +91,7 @@ class ListingPreview(BaseModel):
     price_usd: float
     shipping_usd: float
     category: str
+    brand: str = ""
     condition: str
     currency: str
 
